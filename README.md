@@ -72,3 +72,7 @@ icons/             Extension icons
 ## Contributing
 
 Suggestions for the domain and keyword lists are welcome. Open an issue or a pull request, and please include an example URL for any false positive you find.
+
+## License
+
+[MIT](LICENSE)
