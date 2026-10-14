@@ -1,0 +1,11 @@
+# Packaged builds
+*.zip
+*.crx
+*.pem
+
+# OS / editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
