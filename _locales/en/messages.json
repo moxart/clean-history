@@ -1,4 +1,14 @@
 {
-  "extName": { "message": "Clean History" },
-  "extDescription": { "message": "Automatically removes adult and inappropriate sites from your Chrome history." }
+  "extName": {"message": "Clean History"},
+  "extDescription": {"message": "Automatically removes adult and inappropriate sites from your Chrome history."},
+  "languageName": {"message": "EN"},
+  "enabled": {"message": "Automatic cleaning enabled"},
+  "removed": {"message": "URLs removed:"},
+  "lastScan": {"message": "Last full scan:"},
+  "scan": {"message": "Scan entire history now"},
+  "scanning": {"message": "Scanning..."},
+  "scanDone": {"message": "$COUNT$ URL(s) removed.", "placeholders": {"count": {"content": "$1"}}},
+  "customLabel": {"message": "Custom domains to remove (one per line):"},
+  "save": {"message": "Save domains"},
+  "saved": {"message": "Saved."}
 }

@@ -1,4 +1,4 @@
-// دامنه‌هایی که مستقیماً (همراه با زیردامنه‌هایشان) حذف می‌شوند
+// Domains removed outright, along with their subdomains
 export const BLOCKED_DOMAINS = [
   "pornhub.com", "xvideos.com", "xnxx.com", "xhamster.com", "redtube.com",
   "youporn.com", "tube8.com", "spankbang.com", "eporner.com", "tnaflix.com",
@@ -13,12 +13,18 @@ export const BLOCKED_DOMAINS = [
   "efukt.com", "heavy-r.com", "adultfriendfinder.com", "manyvids.com", "clips4sale.com"
 ];
 
-// کلمه‌هایی که اگر در نام دامنه یا مسیر آدرس باشند، آدرس حذف می‌شود
+// A URL is removed if one of these words appears in its domain or path
 export const BLOCKED_KEYWORDS = [
   "porn", "xxx", "xvideo", "hentai", "nsfw", "milf", "camgirl", "sexcam",
   "xhamster", "redtube", "onlyfans", "nude", "naked", "erotic", "fetish",
-  "pussy", "boobs", "blowjob", "hardcore", "escort", "سکس", "پورن", "سکسی"
+  "pussy", "boobs", "blowjob", "hardcore", "escort", "xnxx", "pornhub", "youporn",
+  "spankbang", "chaturbate", "brazzers", "bangbros", "fansly", "rule34", "camwhore",
+  "sextape", "sexvideo", "livesex", "cumshot", "creampie", "gangbang", "bukkake",
+  "deepthroat", "handjob", "footjob", "jerkoff", "masturbat", "orgasm", "threesome",
+  "bdsm", "bondage", "striptease", "upskirt", "topless", "shemale", "hotwife",
+  "cuckold", "incest", "stepsis", "ahegao", "futanari", "lewd", "dildo",
+  "سکس", "پورن", "سکسی", "شهوانی", "جنده"
 ];
 
-// برای جلوگیری از حذف اشتباه (مثلاً essex.ac.uk)
+// Prevents false positives (e.g. essex.ac.uk)
 export const SAFE_WORDS = ["essex", "sussex", "middlesex", "wessex", "sextant", "sextet"];

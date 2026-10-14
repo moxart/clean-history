@@ -1,45 +1,30 @@
-const STRINGS = {
-  en: {
-    locale: "en-US",
-    dir: "ltr",
-    title: "Clean History",
-    enabled: "Automatic cleaning enabled",
-    removed: "URLs removed:",
-    lastScan: "Last full scan:",
-    scan: "Scan entire history now",
-    scanning: "Scanning...",
-    scanDone: (n) => `${n} URL(s) removed.`,
-    customLabel: "Custom domains to remove (one per line):",
-    save: "Save domains",
-    saved: "Saved."
-  },
-  fa: {
-    locale: "fa-IR",
-    dir: "rtl",
-    title: "پاک‌کن تاریخچه نامناسب",
-    enabled: "پاک‌سازی خودکار فعال باشد",
-    removed: "تعداد آدرس‌های حذف‌شده:",
-    lastScan: "آخرین بررسی کامل:",
-    scan: "همین الان کل تاریخچه را بررسی کن",
-    scanning: "در حال بررسی...",
-    scanDone: (n) => `${n} آدرس حذف شد.`,
-    customLabel: "دامنه‌های دلخواه برای حذف (هر خط یک دامنه):",
-    save: "ذخیره دامنه‌ها",
-    saved: "ذخیره شد."
-  }
+// The popup has its own language switch, so it reads the locale files directly
+// instead of chrome.i18n, which always follows the browser's language
+const LANGUAGES = {
+  en: { locale: "en-US", dir: "ltr" },
+  fa: { locale: "fa-IR", dir: "rtl" }
 };
+
+const messages = {};
+
+async function loadMessages(language) {
+  const response = await fetch(chrome.runtime.getURL(`_locales/${language}/messages.json`));
+  messages[language] = await response.json();
+}
 
 const $ = (id) => document.getElementById(id);
 let lang = "en";
-const t = () => STRINGS[lang];
+const t = (key) => messages[lang][key].message;
+const scanDoneMessage = (count) => t("scanDone").replace("$COUNT$", count);
 
 function applyLanguage() {
   document.documentElement.lang = lang;
-  document.documentElement.dir = t().dir;
+  document.documentElement.dir = LANGUAGES[lang].dir;
   document.querySelectorAll("[data-i18n]").forEach((el) => {
-    el.textContent = t()[el.dataset.i18n];
+    el.textContent = t(el.dataset.i18n);
   });
   document.querySelectorAll("[data-lang]").forEach((btn) => {
+    btn.textContent = messages[btn.dataset.lang].languageName.message;
     btn.classList.toggle("active", btn.dataset.lang === lang);
   });
   $("msg").textContent = "";
@@ -49,8 +34,8 @@ async function render() {
   const { enabled = true, customDomains = [], removedCount = 0, lastScan } =
     await chrome.storage.local.get(["enabled", "customDomains", "removedCount", "lastScan"]);
   $("enabled").checked = enabled;
-  $("count").textContent = removedCount.toLocaleString(t().locale);
-  $("lastScan").textContent = lastScan ? new Date(lastScan).toLocaleString(t().locale) : "—";
+  $("count").textContent = removedCount.toLocaleString(LANGUAGES[lang].locale);
+  $("lastScan").textContent = lastScan ? new Date(lastScan).toLocaleString(LANGUAGES[lang].locale) : "—";
   $("custom").value = customDomains.join("\n");
 }
 
@@ -69,9 +54,9 @@ $("enabled").addEventListener("change", (e) => {
 
 $("scan").addEventListener("click", async () => {
   $("scan").disabled = true;
-  $("msg").textContent = t().scanning;
+  $("msg").textContent = t("scanning");
   const { removed } = await chrome.runtime.sendMessage({ type: "scan-now" });
-  $("msg").textContent = t().scanDone(removed.toLocaleString(t().locale));
+  $("msg").textContent = scanDoneMessage(removed.toLocaleString(LANGUAGES[lang].locale));
   $("scan").disabled = false;
   render();
 });
@@ -82,13 +67,14 @@ $("save").addEventListener("click", async () => {
     .map((line) => line.trim().toLowerCase().replace(/^https?:\/\//, "").replace(/^www\./, "").split("/")[0])
     .filter(Boolean);
   await chrome.storage.local.set({ customDomains });
-  $("msg").textContent = t().saved;
+  $("msg").textContent = t("saved");
   render();
 });
 
 (async () => {
+  await Promise.all(Object.keys(LANGUAGES).map(loadMessages));
   const { language } = await chrome.storage.local.get("language");
-  if (language in STRINGS) lang = language;
+  if (language in LANGUAGES) lang = language;
   applyLanguage();
   render();
 })();

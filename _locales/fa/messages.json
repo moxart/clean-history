@@ -1,4 +1,14 @@
 {
-  "extName": { "message": "پاک‌کن تاریخچه نامناسب" },
-  "extDescription": { "message": "سایت‌های غیراخلاقی و پورن را به‌طور خودکار از تاریخچه کروم پاک می‌کند." }
+  "extName": {"message": "پاک‌کن تاریخچه نامناسب"},
+  "extDescription": {"message": "سایت‌های غیراخلاقی و پورن را به‌طور خودکار از تاریخچه کروم پاک می‌کند."},
+  "languageName": {"message": "فا"},
+  "enabled": {"message": "پاک‌سازی خودکار فعال باشد"},
+  "removed": {"message": "تعداد آدرس‌های حذف‌شده:"},
+  "lastScan": {"message": "آخرین بررسی کامل:"},
+  "scan": {"message": "همین الان کل تاریخچه را بررسی کن"},
+  "scanning": {"message": "در حال بررسی..."},
+  "scanDone": {"message": "$COUNT$ آدرس حذف شد.", "placeholders": {"count": {"content": "$1"}}},
+  "customLabel": {"message": "دامنه‌های دلخواه برای حذف (هر خط یک دامنه):"},
+  "save": {"message": "ذخیره دامنه‌ها"},
+  "saved": {"message": "ذخیره شد."}
 }
